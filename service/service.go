@@ -18,9 +18,18 @@ package service
 import (
 	"douyincloud-gin-demo/component"
 	"fmt"
+
 	"github.com/gin-gonic/gin"
 )
 
+func Test(ctx *gin.Context) {
+	ids := ctx.Query("ids")
+	if ids == "" {
+		Failure(ctx, fmt.Errorf("param invalid"))
+		return
+	}
+	Success(ctx, ids)
+}
 func Hello(ctx *gin.Context) {
 	target := ctx.Query("target")
 	if target == "" {
