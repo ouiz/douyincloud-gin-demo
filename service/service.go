@@ -18,6 +18,7 @@ package service
 import (
 	"douyincloud-gin-demo/component"
 	"fmt"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -29,6 +30,20 @@ func Test(ctx *gin.Context) {
 		return
 	}
 	Success(ctx, ids)
+}
+func Openid(c *gin.Context) {
+	// 从请求头中获取用户的openid
+	openId := c.Request.Header.Get("X-TT-OPENID")
+	// 判断openid是否为空
+	if openId == "" {
+		// 如果为空，返回错误信息
+		//   c.String(http.StatusBadRequest, "X-TT-OPENID 为空")
+		Failure(c, fmt.Errorf("X-TT-OPENID 为空"))
+		return
+	}
+	// 如果不为空，返回成功信息
+	// c.String(http.StatusOK, "X-TT-OPENID 为 %s", openId)
+	Success(c, fmt.Sprintf("X-TT-OPENID 为 %s", openId))
 }
 func Hello(ctx *gin.Context) {
 	target := ctx.Query("target")
@@ -49,6 +64,15 @@ func Hello(ctx *gin.Context) {
 		return
 	}
 	Success(ctx, name)
+}
+
+// example
+func GetUserInfoFromHandler(w http.ResponseWriter, r *http.Request) {
+	openId := r.Header.Get("X-TT-OPENID")
+	if openId == "" {
+		fmt.Fprint(w, "X-TT-OPENID 为空")
+		return
+	}
 }
 
 func SetName(ctx *gin.Context) {

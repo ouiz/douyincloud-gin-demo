@@ -27,6 +27,7 @@ func main() {
 
 	r.GET("/api/hello", service.Hello)
 	r.GET("/api/test", service.Test)
+	r.GET("/api/openid", service.Openid)
 	r.POST("/api/set_name", service.SetName)
 
 	r.Run(":8000")
