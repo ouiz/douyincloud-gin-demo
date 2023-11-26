@@ -45,6 +45,7 @@ func Openid(c *gin.Context) {
 	// c.String(http.StatusOK, "X-TT-OPENID 为 %s", openId)
 	Success(c, fmt.Sprintf("X-TT-OPENID 为 %s", openId))
 }
+
 func Hello(ctx *gin.Context) {
 	target := ctx.Query("target")
 	if target == "" {
@@ -99,6 +100,15 @@ func Failure(ctx *gin.Context, err error) {
 	resp := &Resp{
 		ErrNo:  -1,
 		ErrMsg: err.Error(),
+	}
+	ctx.JSON(200, resp)
+}
+
+func SuccessData(ctx *gin.Context, data interface{}) {
+	resp := &Resp{
+		ErrNo:  0,
+		ErrMsg: "success",
+		Data:   data,
 	}
 	ctx.JSON(200, resp)
 }
