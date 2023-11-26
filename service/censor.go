@@ -26,12 +26,13 @@ func CensorImg(ctx *gin.Context) {
 		return
 	}
 	resp, err := pictureDetect(req, "")
+	fmt.Printf("\nresp:%+v,\nerr:%v\n", resp, err)
 	if err != nil {
 		Failure(ctx, err)
 		return
 	}
 	if resp.ErrNo != 0 {
-		Failure(ctx, fmt.Errorf("%s", resp.ErrTips))
+		Failure(ctx, fmt.Errorf("%s_%s", resp.ErrMsg, resp.ErrTips))
 		return
 	}
 	// checkPictureDetectPredicts()
@@ -122,6 +123,7 @@ func pictureDetect(request PictureDetectRequest, token string) (PictureDetectRes
 	}
 	req.Header.Set("Content-Type", "application/json")
 	if token != "" {
+		fmt.Println("!!!!! token not empty", token)
 		req.Header.Set("access-token", token)
 	}
 
