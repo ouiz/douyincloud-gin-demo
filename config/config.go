@@ -43,7 +43,8 @@ type ConfigCommon struct {
 
 var Cfg *Config
 var CfgCm = ConfigCommon{
-	OsEndpoint:   "tt278e5133b8bd3b8b01-env-nkjyi3kslh.tos-cn-beijing.volces.com",
+	// OsEndpoint:   "tt278e5133b8bd3b8b01-env-nkjyi3kslh.tos-cn-beijing.volces.com",
+	OsEndpoint:   "tos-cn-beijing.volces.com",
 	OsRegion:     "cn-beijing",
 	OsBucketName: "tt278e5133b8bd3b8b01-env-nkjyi3kslh",
 }
