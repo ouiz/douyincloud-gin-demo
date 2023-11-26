@@ -17,9 +17,36 @@ type Config struct {
 	AppId   string `json:"appId"`
 	Secret  string `json:"secret"`
 	IsLocal bool   `json:"isLocal"`
+
+	OsAK string `json:"osAK"`
+	OsSK string `json:"osSK"`
+	//  //填写从抖音云--对象存储--配置获取的AK和SK
+	//  osAK  = "xxxxxxxxxx"
+	//  osSK  = "xxxxxx"
+	//  // 如果部署在抖音云服务中，建议替换成内网域名
+	//  osEndpoint   = "tos-cn-beijing.volces.com"
+	//  osRegion     = "cn-beijing"
+	//  // 填写从抖音云--对象存储获取的桶的ID
+	//  osBucketName = "xxxxxxxxxx"
+	//  httpClient = &http.Client{}
+}
+type ConfigCommon struct {
+	OsEndpoint   string `json:"osEndpoint"`
+	OsRegion     string `json:"osRegion"`
+	OsBucketName string `json:"osBucketName"`
+	//  // 如果部署在抖音云服务中，建议替换成内网域名
+	//  osEndpoint   = "tos-cn-beijing.volces.com"
+	//  osRegion     = "cn-beijing"
+	//  // 填写从抖音云--对象存储获取的桶的ID
+	//  osBucketName = "xxxxxxxxxx"
 }
 
 var Cfg *Config
+var CfgCm = ConfigCommon{
+	OsEndpoint:   "tt278e5133b8bd3b8b01-env-nkjyi3kslh.tos-cn-beijing.volces.com",
+	OsRegion:     "cn-beijing",
+	OsBucketName: "tt278e5133b8bd3b8b01-env-nkjyi3kslh",
+}
 
 // 定义一个全局变量，存储配置文件的名称
 const configFileName = "config.json"
@@ -67,6 +94,8 @@ func checkConfigFile() bool {
 var cldCfg = Config{
 	AppId:  os.Getenv("APPID"),
 	Secret: os.Getenv("SECRET"),
+	OsAK:   os.Getenv("OS_AK"),
+	OsSK:   os.Getenv("OS_SK"),
 }
 
 func InitCfg() {

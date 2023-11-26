@@ -79,8 +79,6 @@ func TestCI(ctx *gin.Context) {
 	SuccessData(ctx, resp.Predicts)
 }
 
-// {"err_no":0,"err_msg":"success","data":[{"model_name":"high_risk_social_event","hit":false},{"model_name":"high_risk_boom","hit":false},{"model_name":"high_risk_money","hit":false},{"model_name":"high_risk_terrorist_uniform","hit":false},{"model_name":"high_risk_sensitive_map","hit":false},{"model_name":"anniversary_flag","hit":false},{"model_name":"bloody","hit":false},{"model_name":"cartoon_leader","hit":false},{"model_name":"fandongtaibiao","hit":false},{"model_name":"great_hall","hit":false},{"model_name":"leader_recognition","hit":false},{"model_name":"party_founding_memorial","hit":false},{"model_name":"plant_ppx","hit":false},{"model_name":"porn","hit":false},{"model_name":"sensitive_text","hit":false}]}
-
 type PictureDetectRequest struct {
 	AppId     string `json:"app_id"`     // 应用的client_key
 	Image     string `json:"image"`      // 应用的client_secret

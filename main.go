@@ -30,6 +30,7 @@ func main() {
 	r.GET("/api/hello", service.Hello)
 	r.GET("/api/test", service.Test)
 	r.GET("/api/openid", service.Openid)
+	r.GET("/api/pre_sign_url", service.GetPreSignUrlHandler)
 	r.POST("/api/censor_img", service.CensorImg)
 	r.GET("/api/test_ci", service.TestCI)
 	r.POST("/api/set_name", service.SetName)
