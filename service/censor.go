@@ -27,7 +27,13 @@ func CensorImg(ctx *gin.Context) {
 		Failure(ctx, err)
 		return
 	}
-	resp, err := pictureDetect(req, "")
+	token, err := getCltToken()
+	fmt.Println("token:", token, err)
+	if token == "" || err != nil {
+		Failure(ctx, fmt.Errorf("get token error:%s,tk:%s", err, token))
+		return
+	}
+	resp, err := pictureDetect(req, token)
 	fmt.Printf("\nresp:%+v,\nerr:%v\n", resp, err)
 	if err != nil {
 		Failure(ctx, err)
@@ -51,10 +57,10 @@ func TestCI(ctx *gin.Context) {
 		Failure(ctx, fmt.Errorf("param invalid"))
 		return
 	}
-	token := getCltToken()
-	fmt.Println("token:", token)
-	if token == "" {
-		Failure(ctx, fmt.Errorf("get token error"))
+	token, err := getCltToken()
+	fmt.Println("token:", token, err)
+	if token == "" || err != nil {
+		Failure(ctx, fmt.Errorf("get token error:%s,tk:%s", err, token))
 		return
 	}
 	req := PictureDetectRequest{AppId: appId, Image: image}

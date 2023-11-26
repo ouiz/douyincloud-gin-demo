@@ -64,7 +64,10 @@ func checkConfigFile() bool {
 	return true
 }
 
-var defaultCfg = Config{}
+var cldCfg = Config{
+	AppId:  os.Getenv("APPID"),
+	Secret: os.Getenv("SECRET"),
+}
 
 func InitCfg() {
 	var err error
@@ -74,11 +77,11 @@ func InitCfg() {
 		if err != nil {
 			// log.Fatal(err)
 			fmt.Println("readCfg err", err)
-			Cfg = &defaultCfg
+			Cfg = &cldCfg
 		}
 		// 打印配置信息
 	} else {
-		Cfg = &defaultCfg
+		Cfg = &cldCfg
 	}
 	fmt.Println("Config init after:", Cfg)
 }

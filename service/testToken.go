@@ -7,21 +7,38 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"time"
 )
+
+const getTokenURL = "https://open.douyin.com/oauth/client_token/"
 
 var token = ""
 
-func getCltToken() string {
-	res, err := getClientToken()
-	if err != nil {
-		fmt.Println("get clientToken err", err)
-		return ""
-	}
-	return res.Data.AccessToken
-}
-
 // 定义获取token的接口的请求地址
-const getTokenURL = "https://open.douyin.com/oauth/client_token/"
+// 定义一个全局变量，存储token的过期时间
+var expireTime time.Time
+
+func getCltToken() (string, error) {
+	now := time.Now()
+	// 判断token是否存在或过期
+	if token == "" || now.After(expireTime) {
+		fmt.Println(".............fetch new token")
+		// 如果token不存在或过期，调用获取token的接口，传入client_key和client_secret
+		// 这里省略了具体的调用过程，您可以根据您的实际情况，编写或调用相关的函数
+		// 假设返回的结果是一个结构体，包含token和expires_in两个字段
+		res, err := getClientToken()
+		if err != nil {
+			// 如果调用失败，返回错误
+			return "", err
+		}
+		token = res.Data.AccessToken
+		expireTime = now.Add(time.Duration(res.Data.ExpiresIn) * time.Second)
+	} else {
+		fmt.Println("$.use saved token")
+	}
+	// 返回token的值
+	return token, nil
+}
 
 // 定义获取token的接口的请求参数结构体
 type GetTokenRequest struct {
