@@ -13,7 +13,7 @@ import (
 
 // const textAntidirtURL = "http://developer.toutiao.com/api/v2/tags/text/antidirt"
 const imgAntidirtURL = "https://open.douyin.com/api/apps/v1/censor/image"
-const imgAntidirtURLCld = "http://open.douyin.com/api/apps/v1/censor/image"
+const imgAntidirtURLCld = "https://open.douyin.com/api/apps/v1/censor/image"
 
 //	type CensorImgReq struct {
 //		appId string `json:"target"`
