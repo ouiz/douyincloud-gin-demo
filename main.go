@@ -25,6 +25,7 @@ import (
 func main() {
 	config.InitCfg()
 	// component.InitComponents()
+
 	r := gin.Default()
 
 	r.GET("/api/hello", service.Hello)
