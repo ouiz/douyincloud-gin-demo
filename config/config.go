@@ -14,8 +14,9 @@ type Config struct {
 	// DBUser string `json:"db_user"` // 数据库的用户名
 	// DBPass string `json:"db_pass"` // 数据库的密码
 	// APIKey string `json:"api_key"` // API的密钥
-	AppId  string `json:"appId"`
-	Secret string `json:"secret"`
+	AppId   string `json:"appId"`
+	Secret  string `json:"secret"`
+	IsLocal bool   `json:"isLocal"`
 }
 
 var Cfg *Config

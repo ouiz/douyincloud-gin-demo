@@ -2,6 +2,7 @@ package service
 
 import (
 	"bytes"
+	"douyincloud-gin-demo/config"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -12,6 +13,7 @@ import (
 
 // const textAntidirtURL = "http://developer.toutiao.com/api/v2/tags/text/antidirt"
 const imgAntidirtURL = "https://open.douyin.com/api/apps/v1/censor/image"
+const imgAntidirtURLCld = "http://open.douyin.com/api/apps/v1/censor/image"
 
 //	type CensorImgReq struct {
 //		appId string `json:"target"`
@@ -117,7 +119,12 @@ func pictureDetect(request PictureDetectRequest, token string) (PictureDetectRes
 	}
 	// 创建一个HTTP客户端
 	client := &http.Client{}
-	req, err := http.NewRequest("POST", imgAntidirtURL, bytes.NewBuffer(requestJSON))
+	apiURL := imgAntidirtURLCld
+	if config.Cfg.IsLocal {
+		apiURL = imgAntidirtURL
+	}
+	fmt.Println("url,isLocal", apiURL, config.Cfg.IsLocal)
+	req, err := http.NewRequest("POST", apiURL, bytes.NewBuffer(requestJSON))
 	if err != nil {
 		return PictureDetectResponse{}, err
 	}
