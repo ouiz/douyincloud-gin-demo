@@ -18,10 +18,10 @@ var token = ""
 // 定义一个全局变量，存储token的过期时间
 var expireTime time.Time
 
-func getCltToken() (string, error) {
+func getCltToken(fresh bool) (string, error) {
 	now := time.Now()
 	// 判断token是否存在或过期
-	if token == "" || now.After(expireTime) {
+	if fresh || token == "" || now.After(expireTime) {
 		fmt.Println(".............fetch new token")
 		// 如果token不存在或过期，调用获取token的接口，传入client_key和client_secret
 		// 这里省略了具体的调用过程，您可以根据您的实际情况，编写或调用相关的函数

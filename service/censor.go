@@ -13,7 +13,7 @@ import (
 
 // const textAntidirtURL = "http://developer.toutiao.com/api/v2/tags/text/antidirt"
 const imgAntidirtURL = "https://open.douyin.com/api/apps/v1/censor/image"
-const imgAntidirtURLCld = "https://open.douyin.com/api/apps/v1/censor/image"
+const imgAntidirtURLCld = "http://open.douyin.com/api/apps/v1/censor/image"
 
 //	type CensorImgReq struct {
 //		appId string `json:"target"`
@@ -27,14 +27,20 @@ func CensorImg(ctx *gin.Context) {
 		Failure(ctx, err)
 		return
 	}
-	token, err := getCltToken()
+	token, err := getCltToken(false)
 	fmt.Println("token:", token, err)
 	if token == "" || err != nil {
+		getCltToken(true)
 		Failure(ctx, fmt.Errorf("get token error:%s,tk:%s", err, token))
 		return
 	}
-	resp, err := pictureDetect(req, token)
-	fmt.Printf("\nresp:%+v,\nerr:%v\n", resp, err)
+	ns := ctx.Query("ns")
+	url := imgAntidirtURL
+	if ns != "" {
+		url = imgAntidirtURLCld
+	}
+	resp, err := pictureDetect(req, url, token)
+	fmt.Printf("\nresp:%+v,\nerr:%v\n,ns:%v", resp, err, ns)
 	if err != nil {
 		Failure(ctx, err)
 		return
@@ -57,15 +63,16 @@ func TestCI(ctx *gin.Context) {
 		Failure(ctx, fmt.Errorf("param invalid"))
 		return
 	}
-	token, err := getCltToken()
+	token, err := getCltToken(false)
 	fmt.Println("token:", token, err)
 	if token == "" || err != nil {
+		getCltToken(true)
 		Failure(ctx, fmt.Errorf("get token error:%s,tk:%s", err, token))
 		return
 	}
 	req := PictureDetectRequest{AppId: appId, Image: image}
 	fmt.Printf("\n%+v\n", req)
-	resp, err := pictureDetect(req, token)
+	resp, err := pictureDetect(req, imgAntidirtURL, token)
 	fmt.Printf("\nresp:%+v,\nerr:%v\n", resp, err)
 	if err != nil {
 		Failure(ctx, err)
@@ -113,7 +120,7 @@ func checkPictureDetectPredicts(predicts []Predicts) (bool, []string) {
 }
 
 // func pictureDetect(app_id, imgURL string) (PictureDetectResponse, error) {
-func pictureDetect(request PictureDetectRequest, token string) (PictureDetectResponse, error) {
+func pictureDetect(request PictureDetectRequest, apiURL, token string) (PictureDetectResponse, error) {
 	// request := PictureDetectRequest{
 	// 	AppId: app_id, Image: imgURL,
 	// }
@@ -123,10 +130,10 @@ func pictureDetect(request PictureDetectRequest, token string) (PictureDetectRes
 	}
 	// 创建一个HTTP客户端
 	client := &http.Client{}
-	apiURL := imgAntidirtURLCld
-	if config.Cfg.IsLocal {
-		apiURL = imgAntidirtURL
-	}
+	// apiURL := imgAntidirtURLCld
+	// if config.Cfg.IsLocal {
+	// 	apiURL = imgAntidirtURL
+	// }
 	fmt.Println("url,isLocal", apiURL, config.Cfg.IsLocal)
 	req, err := http.NewRequest("POST", apiURL, bytes.NewBuffer(requestJSON))
 	if err != nil {
