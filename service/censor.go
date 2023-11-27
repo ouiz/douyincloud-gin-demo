@@ -30,7 +30,7 @@ func CensorImg(ctx *gin.Context) {
 	token, err := getCltToken(false)
 	fmt.Println("token:", token, err)
 	if token == "" || err != nil {
-		getCltToken(true)
+
 		Failure(ctx, fmt.Errorf("get token error:%s,tk:%s", err, token))
 		return
 	}
@@ -41,6 +41,12 @@ func CensorImg(ctx *gin.Context) {
 	}
 	resp, err := pictureDetect(req, url, token)
 	fmt.Printf("\nresp:%+v,\nerr:%v\n,ns:%v", resp, err, ns)
+	if err != nil {
+		fmt.Printf("1 detect err:%v", err)
+		getCltToken(true)
+		resp, err = pictureDetect(req, url, token)
+		fmt.Printf("\nresp:%+v,\nerr:%v\n,ns:%v", resp, err, ns)
+	}
 	if err != nil {
 		Failure(ctx, err)
 		return

@@ -34,7 +34,7 @@ func CensorImg2(ctx *gin.Context) {
 		return
 	}
 	resp, err := pictureDetect2(req, imgCensor2s, token)
-	fmt.Printf("\nresp:%+v,\nerr:%v\n", resp, err)
+	fmt.Printf("\n11resp:%+v,\nerr:%v\n", resp, err)
 	if err != nil {
 		getCltToken(true)
 		Failure(ctx, err)
